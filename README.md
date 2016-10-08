@@ -22,11 +22,11 @@ The software part is written in MicroPython and depends on having the data avail
 
 You can either compile MicroPython for the ESP8266 on your own, flash it and put all the script files onto the device, or you can just clone this repository, attach your NodeMCU to your computer and use the install script:
 
-    ~~~ bash
-    git clone https://github.com/misterdanb/trashbox
-    cd trashbox
-    ./install.sh
-    ~~~
+~~~ bash
+git clone https://github.com/misterdanb/trashbox
+cd trashbox
+./install.sh
+~~~
 
 The script asks you for some information and then installs the scripts and configurations to a precompiled MicroPython image and flashes this image onto the device.
 
@@ -42,12 +42,12 @@ There are three configuration files:
 
 The Trashcal-Server must provide an HTTP interface of the form "http://{host}/{street}", where street requests the corresponding data, and respond with JSON data of the following form:
 
-    ~~~ json
-    response := { <month>: <month_data> }
-    month := "01" | "02" | ... | "12"
-    month_data := { <day>: <day_data> }
-    day := "01" | "02" | ... | "31"
-    day_data := [ <day_data_list> ]
-    day_data_list := <trash_type>, <day_data_list> | <trash_type>
-    trash_type := "biotonne" | "paper" | "restmuell" | "gelber_sack"
-    ~~~
+~~~ json
+response := { <month>: <month_data> }
+month := "01" | "02" | ... | "12"
+month_data := { <day>: <day_data> }
+day := "01" | "02" | ... | "31"
+day_data := [ <day_data_list> ]
+day_data_list := <trash_type>, <day_data_list> | <trash_type>
+trash_type := "biotonne" | "paper" | "restmuell" | "gelber_sack"
+~~~
