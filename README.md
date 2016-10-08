@@ -42,7 +42,7 @@ There are three configuration files:
 
 The Trashcal-Server must provide an HTTP interface of the form "http://{host}/{street}", where street requests the corresponding data, and respond with JSON data of the following form:
 
-~~~ json
+~~~ bnf
 response := { <month>: <month_data> }
 month := "01" | "02" | ... | "12"
 month_data := { <day>: <day_data> }
