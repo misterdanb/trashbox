@@ -49,5 +49,5 @@ month_data := { <day>: <day_data> }
 day := "01" | "02" | ... | "31"
 day_data := [ <day_data_list> ]
 day_data_list := <trash_type>, <day_data_list> | <trash_type>
-trash_type := "biotonne" | "paper" | "restmuell" | "gelber_sack"
+trash_type := "biotonne" | "papier" | "restmuell" | "gelber_sack"
 ~~~
