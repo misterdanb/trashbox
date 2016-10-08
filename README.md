@@ -18,7 +18,7 @@ As already described, you need:
 
 The software part is written in MicroPython and depends on having the data available in a certain JSON format. This is why Trashbox, for the moment, only is working for the city Siegen in Germany. I would appreciate if you build stuff such as web scrapers so that this project is useful for others as well!
 
-## Installation
+### Installation
 
 You can either compile MicroPython for the ESP8266 on your own, flash it and put all the script files onto the device, or you can just clone this repository, attach your NodeMCU to your computer and use the install script:
 
@@ -29,3 +29,25 @@ You can either compile MicroPython for the ESP8266 on your own, flash it and put
     ~~~
 
 The script asks you for some information and then installs the scripts and configurations to a precompiled MicroPython image and flashes this image onto the device.
+
+### About the configuration files
+
+There are three configuration files:
+
+* street.txt: contains the street, for which the trash data is determined
+* wifi.txt: contains two lines, in the first line the ssid, in the second line the password
+* change_day_shift: contains the number of hours by which the switch to the next day should be performed
+
+### About the Trashcal data
+
+The Trashcal-Server must provide an HTTP interface of the form "http://{host}/{street}", where street requests the corresponding data, and respond with JSON data of the following form:
+
+    ~~~ json
+    response := { <month>: <month_data> }
+    month := "01" | "02" | ... | "12"
+    month_data := { <day>: <day_data> }
+    day := "01" | "02" | ... | "31"
+    day_data := [ <day_data_list> ]
+    day_data_list := <trash_type>, <day_data_list> | <trash_type>
+    trash_type := "biotonne" | "paper" | "restmuell" | "gelber_sack"
+    ~~~
