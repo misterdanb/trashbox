@@ -1,5 +1,6 @@
 import socket
 import json
+import gc
 
 def quote(string):
     string = string.replace("&quot;", "\"")
@@ -97,6 +98,8 @@ def http_request(response_handler, url, method, content=""):
     response_handler(response)
 
     s.close()
+
+    gc.collect()
 
 def http_get(response_handler, url):
     http_request(response_handler, url, "GET", "")
