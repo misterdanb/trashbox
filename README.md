@@ -3,8 +3,8 @@
 Trashbox is quite a simple solution for quite a simple (or complicated?) task: not forgetting to take out the trask.
 It's a simple laser cutted box containing four LEDs, a photo resistor a NodeMCU.
 
-![Trashbox opened](photos/trashbox_open.jpg "Trashbox opened")
-![Trashbox closed and ready](photos/trashbox_closed.jpg "Trashbox closed and ready")
+<img src="photos/trashbox_open.jpg" width="250" height="250">
+<img src="photos/trashbox_closed.jpg" width="250" height="250">
 
 ## Hardware
 
