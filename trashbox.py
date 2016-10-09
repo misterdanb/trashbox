@@ -108,10 +108,11 @@ class Trashbox:
     def handle_year_changed(self):
         year, _, _, _, _, _, _, _ = time.localtime(time.time() + self.change_day_shift)
 
-        if year != self.year:
+        if not isinstance(self.dates, dict) or \
+           not "year" in self.dates or \
+           year != self.dates["year"]:
             try:
                 self.get_trash()
-                self.year = year
             except:
                 print("Could not load the trash!")
 
@@ -124,8 +125,8 @@ class Trashbox:
         month_key = "{:02}".format(month)
         day_key = "{:02}".format(day)
 
-        if month_key in self.dates:
-            if day_key in self.dates[month_key]:
+        if isinstance(self,dates, dict) and month_key in self.dates:
+            if isinstance(self.dates[month_key]) and day_key in self.dates[month_key]:
                 return self.dates[month_key][day_key]
 
         return []

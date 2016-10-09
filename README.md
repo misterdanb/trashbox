@@ -43,11 +43,14 @@ There are three configuration files:
 The Trashcal-Server must provide an HTTP interface of the form "http://{host}/{street}", where street requests the corresponding data, and respond with JSON data of the following form:
 
 ~~~ bnf
-response := { <month>: <month_data> }
+response := { "year": <year>, <month_list> }
+
+month_list := <month>: { <day_list> }, <month_list> | <month>: { <day_list> }
+day_list := <day>: [ <trash_list> ], <day_list> | <day>: [ <trash_list> ]
+trash_list := <trash>, <trash_list> | <trash>
+
+year := <integer>
 month := "01" | "02" | ... | "12"
-month_data := { <day>: <day_data> }
 day := "01" | "02" | ... | "31"
-day_data := [ <day_data_list> ]
-day_data_list := <trash_type>, <day_data_list> | <trash_type>
-trash_type := "biotonne" | "papier" | "restmuell" | "gelber_sack"
+trash := "biotonne" | "papier" | "restmuell" | "gelber_sack"
 ~~~
