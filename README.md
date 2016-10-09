@@ -1,7 +1,7 @@
 # Trashbox
 
 Trashbox is quite a simple solution for quite a simple (or complicated?) task: not forgetting to take out the trash.
-It's a simple laser cutted box containing four LEDs, a photo resistor a [NodeMCU](https://en.wikipedia.org/wiki/NodeMCU).
+It's a simple laser cutted box containing four LEDs, a photo resistor and a [NodeMCU](https://en.wikipedia.org/wiki/NodeMCU).
 
 <img src="photos/trashbox_open.jpg" height="250">
 <img src="photos/trashbox_closed.jpg" height="250">
