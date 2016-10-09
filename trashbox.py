@@ -6,7 +6,7 @@ import machine
 import webrepl
 from unterwasserhandgekloeppelt import http_get
 
-trash_url = "http://hackspace-siegen.de:57000/"
+trash_url = "http://10.23.42.171:57000/"
 street_file = "/street.txt"
 wifi_file = "/wifi.txt"
 change_day_shift_file = "/change_day_shift.txt"
@@ -125,8 +125,8 @@ class Trashbox:
         month_key = "{:02}".format(month)
         day_key = "{:02}".format(day)
 
-        if isinstance(self,dates, dict) and month_key in self.dates:
-            if isinstance(self.dates[month_key]) and day_key in self.dates[month_key]:
+        if isinstance(self.dates, dict) and month_key in self.dates:
+            if isinstance(self.dates[month_key], dict) and day_key in self.dates[month_key]:
                 return self.dates[month_key][day_key]
 
         return []
