@@ -48,6 +48,8 @@ def http_request(response_handler, url, method, content=""):
     host, port = host.split(":")
     addr = socket.getaddrinfo(host, int(port))[0][-1]
 
+    header = None
+
     if method == "GET":
         header = GET_HEADER_TEMPLATE.format(path=quote(path), host=host)
     elif method == "POST":
@@ -92,14 +94,10 @@ def http_request(response_handler, url, method, content=""):
                     if not response_handler(lines[i]):
                         return
 
-                lines[i] = ""
-
     # flush the rests
     response_handler(response)
 
     s.close()
-
-    gc.collect()
 
 def http_get(response_handler, url):
     http_request(response_handler, url, "GET", "")

@@ -4,9 +4,10 @@ import json
 import utime as time
 import machine
 import webrepl
+import gc
 from unterwasserhandgekloeppelt import http_get
 
-trash_url = "http://10.23.42.171:57000/"
+trash_url = "http://trashcal.hackspace-siegen.de:80/"
 street_file = "/street.txt"
 wifi_file = "/wifi.txt"
 change_day_shift_file = "/change_day_shift.txt"
@@ -97,6 +98,7 @@ class Trashbox:
         self._dates_json = ""
         http_get(self._trash_handler, trash_url + self.street)
         self.dates = json.loads(self._dates_json)
+        self._dates_json = ""
 
         return self.dates
 
@@ -114,11 +116,12 @@ class Trashbox:
             try:
                 self.get_trash()
             except:
+                time.sleep(10)
                 print("Could not load the trash!")
 
     def handle_duty_cycle(self):
-        min_duty = 20
-        self.current_duty = max(self.adc.read(), min_duty)
+        min_duty = 2
+        self.current_duty = max(self.adc.read() // 2, min_duty)
 
     def get_trash_tomorrow(self):
         _, month, day, _, _, _, _, _ = time.localtime(time.time() + self.change_day_shift)
@@ -156,24 +159,35 @@ class Trashbox:
             self.pwm_yellow.duty(0)
 
     def run(self):
+        trash_counter = 10
+        trash = None
+
         while True:
-            self.handle_year_changed()
+            gc.collect()
+            gc.threshold(gc.mem_free() // 4 + gc.mem_alloc())
+
             self.handle_duty_cycle()
 
-            trash = self.get_trash_tomorrow()
+            trash_counter -= 1
 
-            print(trash)
+            if trash_counter == 0:
+                self.handle_year_changed()
+                trash = self.get_trash_tomorrow()
+                trash_counter = 10
 
-            self.set_red("biotonne" in trash)
-            self.set_blue("papier" in trash)
-            self.set_white("restmuell" in trash)
-            self.set_yellow("gelber_sack" in trash)
+                print(trash)
 
-            if not self.wlan.isconnected():
-                print("Reconnecting to {0}...".format(self.essid))
-                self.wlan.connect(self.essid, self.password)
+                if not self.wlan.isconnected():
+                    print("Reconnecting to {0}...".format(self.essid))
+                    self.wlan.connect(self.essid, self.password)
 
-            time.sleep(10)
+            if trash != None:
+                self.set_red("b" in trash)
+                self.set_blue("p" in trash)
+                self.set_white("r" in trash)
+                self.set_yellow("g" in trash)
+
+            time.sleep(1)
 
 def main():
     trashbox = Trashbox()
