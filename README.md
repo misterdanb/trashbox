@@ -36,6 +36,7 @@ There are three configuration files:
 
 * street.txt: contains the street, for which the trash data is determined
 * wifi.txt: contains two lines, in the first line the ssid, in the second line the password
+* types.txt: contains the selected trash types ah a comma separated list, that shall be displayed, for example this file could contain "r, r4, p, p4, b"
 * change_day_shift: contains the number of hours by which the switch to the next day should be performed
 
 ### About the Trashcal data
@@ -52,5 +53,7 @@ trash_list := <trash>, <trash_list> | <trash>
 year := <integer>
 month := "01" | "02" | ... | "12"
 day := "01" | "02" | ... | "31"
-trash := "biotonne" | "papier" | "restmuell" | "gelber_sack"
+trash := "b" | "p4" | "r" | "r2" | "r4" | "g"
 ~~~
+
+Where all the trash definition may depend on your local situation and should be replaced in the server as well as the trashbox code.

@@ -10,6 +10,7 @@ from unterwasserhandgekloeppelt import http_get
 trash_url = "http://trashcal.hackspace-siegen.de:80/"
 street_file = "/street.txt"
 wifi_file = "/wifi.txt"
+types_file = "/types.txt"
 change_day_shift_file = "/change_day_shift.txt"
 
 class Trashbox:
@@ -24,7 +25,8 @@ class Trashbox:
         self.year = 0
         self.street = "Effertsufer"
         self.essid = ""
-        self.password = ","
+        self.password = ""
+        self.types = []
         self.change_day_shift = 0
 
         try:
@@ -40,6 +42,14 @@ class Trashbox:
                 self.password = wifi[1].strip()
         except:
             print("Could not load wifi!")
+
+        try:
+            with open(types_file, "r") as tf:
+                types = tf.read().strip()
+                self.types = types.replace(" ", "").split(",")
+                print(self.types)
+        except:
+            print("Could not load selected trash types!")
 
         try:
             with open(change_day_shift_file, "r") as cdsf:
@@ -182,10 +192,34 @@ class Trashbox:
                     self.wlan.connect(self.essid, self.password)
 
             if trash != None:
-                self.set_red("b" in trash)
-                self.set_blue("p" in trash)
-                self.set_white("r" in trash)
-                self.set_yellow("g" in trash)
+                if "b" in self.types:
+                    self.set_red("b" in trash)
+
+                p = False
+
+                if "p" in self.types:
+                    p = p or ("p" in trash)
+
+                if "p4" in self.types:
+                    p = p or ("p4" in trash)
+
+                self.set_blue(p)
+
+                r = False
+
+                if "r" in self.types:
+                    r = r or ("r" in trash)
+
+                if "r2" in self.types:
+                    r = r or ("r2" in trash)
+
+                if "r4" in self.types:
+                    r = r or ("r4" in trash)
+
+                self.set_white(r)
+
+                if "g" in self.types:
+                    self.set_yellow("g" in trash)
 
             time.sleep(1)
 
