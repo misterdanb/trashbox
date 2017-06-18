@@ -8,10 +8,10 @@ import gc
 from unterwasserhandgekloeppelt import http_get
 
 trash_url = "http://trashcal.hackspace-siegen.de:80/"
-street_file = "/street.txt"
-wifi_file = "/wifi.txt"
-types_file = "/types.txt"
-change_day_shift_file = "/change_day_shift.txt"
+street_file = "street.txt"
+wifi_file = "wifi.txt"
+types_file = "types.txt"
+change_day_shift_file = "change_day_shift.txt"
 
 class Trashbox:
     PIN_NUMBER_RED = 12
@@ -107,7 +107,12 @@ class Trashbox:
     def get_trash(self):
         self._dates_json = ""
         http_get(self._trash_handler, trash_url + self.street)
-        self.dates = json.loads(self._dates_json)
+
+        try:
+            self.dates = json.loads(self._dates_json)
+        except:
+            print("Could not parse JSON!")
+
         self._dates_json = ""
 
         return self.dates
@@ -123,11 +128,11 @@ class Trashbox:
         if not isinstance(self.dates, dict) or \
            not "year" in self.dates or \
            year != self.dates["year"]:
-            try:
-                self.get_trash()
-            except:
-                time.sleep(10)
-                print("Could not load the trash!")
+            #try:
+            self.get_trash()
+            #except:
+            #    time.sleep(10)
+            #    print("Could not load the trash!")
 
     def handle_duty_cycle(self):
         min_duty = 2

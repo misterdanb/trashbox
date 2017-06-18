@@ -15,7 +15,7 @@ def quote(string):
         elif c == " ":
             encoded += "+"
         else:
-            encoded_bytes = bytes(c, "utf-8")
+            encoded_bytes = bytes(c, "ascii")
             for b in encoded_bytes:
                 encoded += "%" + hex(b)[2:].upper()
 
@@ -23,25 +23,9 @@ def quote(string):
 
 BLOCK_SIZE = 512
 
-GET_HEADER_TEMPLATE = """GET /{path} HTTP/1.1
-Accept-Encoding: identity
-Host: {host}
-User-Agent: Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
-Connection: keep-alive
+GET_HEADER_TEMPLATE = """GET /{path} HTTP/1.1\r\nAccept-Encoding: identity\r\nHost: {host}\r\nConnection: keep-alive\r\n\r\n"""
 
-
-"""
-
-POST_HEADER_TEMPLATE = """POST /{path} HTTP/1.1
-Accept-Encoding: identity
-Content-Length: {content_length}
-Host: {host}
-User-Agent: Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
-Connection: keep-alive
-Content-Type: application/x-www-form-urlencoded
-
-
-"""
+POST_HEADER_TEMPLATE = """POST /{path} HTTP/1.1\r\nAccept-Encoding: identity\r\nContent-Length: {content_length}\r\nHost: {host}\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n"""
 
 def http_request(response_handler, url, method, content=""):
     _, _, host, path = url.split("/", 3)
@@ -60,7 +44,7 @@ def http_request(response_handler, url, method, content=""):
     s = socket.socket()
     s.settimeout(5)
     s.connect(addr)
-    s.send(bytes(header + content, "utf8"))
+    s.send(bytes(header + content, "ascii"))
 
     response = ""
 
